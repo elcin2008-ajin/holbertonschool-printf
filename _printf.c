@@ -1,7 +1,41 @@
 #include "main.h"
+#include <unistd.h>
 
 /**
- * _printf - sadə printf funksiyası (c, s, %)
+ * print_number - integer-i stdout-a yazır
+ * @n: integer
+ *
+ * Return: yazılan simvolların sayı
+ */
+int print_number(int n)
+{
+    int count = 0;
+    char c;
+
+    if (n < 0)
+    {
+        write(1, "-", 1);
+        count++;
+        if (n == -2147483648)  /* INT_MIN */
+        {
+            write(1, "2147483648", 10);
+            return count + 10;
+        }
+        n = -n;
+    }
+
+    if (n / 10)
+        count += print_number(n / 10);
+
+    c = (n % 10) + '0';
+    write(1, &c, 1);
+    count++;
+
+    return count;
+}
+
+/**
+ * _printf - simplified printf with c, s, %, d, i
  * @format: format string
  *
  * Return: yazılan simvolların sayı
@@ -51,9 +85,13 @@ int _printf(const char *format, ...)
                 write(1, "%", 1);
                 count++;
             }
+            else if (format[i] == 'd' || format[i] == 'i')
+            {
+                int n = va_arg(args, int);
+                count += print_number(n);
+            }
             else
             {
-                /* tanınmayan specifier */
                 write(1, "%", 1);
                 write(1, &format[i], 1);
                 count += 2;
@@ -68,5 +106,5 @@ int _printf(const char *format, ...)
     }
 
     va_end(args);
-    return (count);
+    return count;
 }
