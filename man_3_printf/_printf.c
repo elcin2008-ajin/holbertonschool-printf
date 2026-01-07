@@ -1,63 +1,7 @@
 #include "main.h"
-#include <stdarg.h>
-#include <unistd.h>
 
 /**
- * print_number - prints an integer to stdout
- * @n: integer to print
- *
- * Return: number of characters printed
- */
-int print_number(int n)
-{
-    int count = 0;
-    char c;
-
-    if (n < 0)
-    {
-        write(1, "-", 1);
-        count++;
-        if (n == -2147483648) /* INT_MIN */
-        {
-            write(1, "2147483648", 10);
-            return count + 10;
-        }
-        n = -n;
-    }
-
-    if (n / 10)
-        count += print_number(n / 10);
-
-    c = (n % 10) + '0';
-    write(1, &c, 1);
-    count++;
-
-    return count;
-}
-
-/**
- * print_binary - prints an unsigned int in binary
- * @n: number to print
- *
- * Return: number of characters printed
- */
-int print_binary(unsigned int n)
-{
-    int count = 0;
-    char c;
-
-    if (n / 2)
-        count += print_binary(n / 2);
-
-    c = (n % 2) + '0';
-    write(1, &c, 1);
-    count++;
-
-    return count;
-}
-
-/**
- * _printf - produces output according to a format
+ * _printf - custom printf function
  * @format: format string
  *
  * Return: number of characters printed
@@ -66,70 +10,24 @@ int _printf(const char *format, ...)
 {
     va_list args;
     int i = 0, count = 0;
-    char c;
-    char *s;
-
-    if (!format)
-        return (-1);
 
     va_start(args, format);
 
-    while (format[i])
+    while (format && format[i])
     {
-        if (format[i] == '%')
+        if (format[i] == '%' && format[i + 1])
         {
             i++;
-            if (!format[i])
-            {
-                va_end(args);
-                return (-1);
-            }
-
-            if (format[i] == 'c')
-            {
-                c = va_arg(args, int);
-                write(1, &c, 1);
-                count++;
-            }
-            else if (format[i] == 's')
-            {
-                s = va_arg(args, char *);
-                if (!s)
-                    s = "(null)";
-                while (*s)
-                {
-                    write(1, s++, 1);
-                    count++;
-                }
-            }
+            if (format[i] == 'b') /* bizim custom specifier */
+                count += print_binary(va_arg(args, unsigned int));
             else if (format[i] == '%')
-            {
-                write(1, "%", 1);
-                count++;
-            }
-            else if (format[i] == 'd' || format[i] == 'i')
-            {
-                int n = va_arg(args, int);
-                count += print_number(n);
-            }
-            else if (format[i] == 'b') /* binary specifier */
-            {
-                unsigned int n = va_arg(args, unsigned int);
-                count += print_binary(n);
-            }
+                count += _putchar('%');
+            /* digər format specifiers əlavə edə bilərsən */
             else
-            {
-                /* unrecognized specifier: print % and char */
-                write(1, "%", 1);
-                write(1, &format[i], 1);
-                count += 2;
-            }
+                count += _putchar('%'), count += _putchar(format[i]);
         }
         else
-        {
-            write(1, &format[i], 1);
-            count++;
-        }
+            count += _putchar(format[i]);
         i++;
     }
 

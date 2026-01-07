@@ -1,0 +1,23 @@
+#include "main.h"
+#include <unistd.h>
+
+/**
+ * print_binary - prints an unsigned int in binary
+ * @n: number to print
+ *
+ * Return: number of characters printed
+ */
+int print_binary(unsigned int n)
+{
+    int count = 0;
+    char c;
+
+    if (n / 2)
+        count += print_binary(n / 2);
+
+    c = (n % 2) + '0';
+    write(1, &c, 1);
+    count++;
+
+    return count;
+}
