@@ -1,7 +1,13 @@
 #include "main.h"
+#include <stdarg.h>
 #include <unistd.h>
 
-/* integer yazmaq üçün */
+/**
+ * print_number - prints an integer to stdout
+ * @n: integer to print
+ *
+ * Return: number of characters printed
+ */
 int print_number(int n)
 {
     int count = 0;
@@ -11,7 +17,7 @@ int print_number(int n)
     {
         write(1, "-", 1);
         count++;
-        if (n == -2147483648)
+        if (n == -2147483648) /* INT_MIN */
         {
             write(1, "2147483648", 10);
             return count + 10;
@@ -29,7 +35,12 @@ int print_number(int n)
     return count;
 }
 
-/* binary yazmaq üçün */
+/**
+ * print_binary - prints an unsigned int in binary
+ * @n: number to print
+ *
+ * Return: number of characters printed
+ */
 int print_binary(unsigned int n)
 {
     int count = 0;
@@ -45,7 +56,12 @@ int print_binary(unsigned int n)
     return count;
 }
 
-/* _printf funksiyası */
+/**
+ * _printf - produces output according to a format
+ * @format: format string
+ *
+ * Return: number of characters printed
+ */
 int _printf(const char *format, ...)
 {
     va_list args;
@@ -63,6 +79,12 @@ int _printf(const char *format, ...)
         if (format[i] == '%')
         {
             i++;
+            if (!format[i])
+            {
+                va_end(args);
+                return (-1);
+            }
+
             if (format[i] == 'c')
             {
                 c = va_arg(args, int);
@@ -90,13 +112,14 @@ int _printf(const char *format, ...)
                 int n = va_arg(args, int);
                 count += print_number(n);
             }
-            else if (format[i] == 'b')  /* yeni %b */
+            else if (format[i] == 'b') /* binary specifier */
             {
                 unsigned int n = va_arg(args, unsigned int);
                 count += print_binary(n);
             }
             else
             {
+                /* unrecognized specifier: print % and char */
                 write(1, "%", 1);
                 write(1, &format[i], 1);
                 count += 2;
