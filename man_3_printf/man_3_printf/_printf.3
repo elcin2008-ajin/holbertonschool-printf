@@ -1,0 +1,58 @@
+.TH _PRINTF 3 "07 Jan 2026" "1.0" "Holberton School"
+.SH NAME
+_printf \- write output according to a format
+
+.SH SYNOPSIS
+.B #include "main.h"
+.br
+.B int _printf(const char *format, ...);
+
+.SH DESCRIPTION
+The
+.B _printf
+function produces output according to a format.
+
+The format string is composed of zero or more directives:
+.sp
+The function supports the following conversion specifiers:
+.TP
+.B c
+Print a single character.
+.TP
+.B s
+Print a string of characters.
+.TP
+.B %
+Print a percent sign.
+.TP
+.B d, i
+Print a decimal (base 10) integer.
+
+The function returns the number of characters printed (excluding the null byte).
+
+.SH RETURN VALUE
+Returns the number of characters printed.
+
+.SH EXAMPLES
+The following code:
+
+.nf
+#include "main.h"
+
+int main(void)
+{
+    _printf("Hello %s!\n", "Baku");
+    _printf("Integer: %d\n", 42);
+    return 0;
+}
+.fi
+
+Will output:
+
+.nf
+Hello Baku!
+Integer: 42
+.fi
+
+.SH SEE ALSO
+printf(3)
