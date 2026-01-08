@@ -8,8 +8,11 @@ int _printf(const char *format, ...)
     format_t specs[] = {
         {'c', print_char},
         {'s', print_string},
-        {'%', print_percent},
-        {'b', print_binary},
+        {'u', print_unsigned},
+        {'o', print_octal},
+        {'x', print_hex_lower},
+        {'X', print_hex_upper},
+        {'%', NULL},
         {0, NULL}
     };
 
@@ -23,11 +26,19 @@ int _printf(const char *format, ...)
         if (format[i] == '%')
         {
             i++;
+            if (format[i] == '%')
+            {
+                _putchar('%');
+                count++;
+                i++;
+                continue;
+            }
             for (j = 0; specs[j].spec; j++)
             {
                 if (format[i] == specs[j].spec)
                 {
-                    count += specs[j].f(args);
+                    if (specs[j].f)
+                        count += specs[j].f(args);
                     break;
                 }
             }
@@ -37,13 +48,14 @@ int _printf(const char *format, ...)
                 _putchar(format[i]);
                 count += 2;
             }
+            i++;
         }
         else
         {
             _putchar(format[i]);
             count++;
+            i++;
         }
-        i++;
     }
 
     va_end(args);

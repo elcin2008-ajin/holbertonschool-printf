@@ -3,12 +3,11 @@
 
 #include <stdarg.h>
 #include <unistd.h>
-#include <stdlib.h>
 
 /**
- * struct format - format specifier strukturu
- * @spec: format simvolu
- * @f: uyğun funksiya
+ * struct format - specifier və ona uyğun funksiya
+ * @spec: specifier simvolu
+ * @f: specifier funksiyasına pointer
  */
 typedef struct format
 {
@@ -16,16 +15,14 @@ typedef struct format
     int (*f)(va_list);
 } format_t;
 
-/* əsas printf */
 int _printf(const char *format, ...);
-
-/* util */
 int _putchar(char c);
 
-/* printer funksiyalar */
 int print_char(va_list args);
 int print_string(va_list args);
-int print_percent(va_list args);
-int print_binary(va_list args);
+int print_unsigned(va_list args);
+int print_octal(va_list args);
+int print_hex_lower(va_list args);
+int print_hex_upper(va_list args);
 
 #endif
