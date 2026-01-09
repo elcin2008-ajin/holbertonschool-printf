@@ -26,6 +26,8 @@ int _printf(const char *format, ...)
                 printed += print_char(va_arg(args, int), buffer, &buff_index);
             else if (format[i] == 's')
                 printed += print_string(va_arg(args, char *), buffer, &buff_index);
+            else if (format[i] == 'S')
+                printed += print_S(va_arg(args, char *), buffer, &buff_index);
             else if (format[i] == '%')
                 printed += print_percent(buffer, &buff_index);
             else if (format[i] == 'd' || format[i] == 'i')

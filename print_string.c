@@ -12,7 +12,7 @@ int print_string(char *s, char *buffer, int *buff_index)
         buffer[*buff_index] = s[i];
         (*buff_index)++;
 
-        if (*buff_index == BUFFER_SIZE)
+        if (*buff_index >= BUFFER_SIZE - 1)
         {
             write(1, buffer, *buff_index);
             *buff_index = 0;

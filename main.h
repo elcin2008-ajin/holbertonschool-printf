@@ -13,6 +13,7 @@ int _printf(const char *format, ...);
 int print_char(char c, char *buffer, int *buff_index);
 int print_string(char *s, char *buffer, int *buff_index);
 int print_percent(char *buffer, int *buff_index);
+int print_S(char *s, char *buffer, int *buff_index);
 
 /* numbers */
 int print_int(int n, char *buffer, int *buff_index);

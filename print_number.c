@@ -11,7 +11,7 @@ int print_number(unsigned int n, char *buffer, int *buff_index,
     buffer[*buff_index] = map[n % base];
     (*buff_index)++;
 
-    if (*buff_index == BUFFER_SIZE)
+    if (*buff_index >= BUFFER_SIZE - 1)
     {
         write(1, buffer, *buff_index);
         *buff_index = 0;
