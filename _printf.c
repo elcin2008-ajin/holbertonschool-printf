@@ -1,61 +1,82 @@
 #include "main.h"
+#include <stdarg.h>
 
+/**
+ * _printf - produces output according to a format
+ * @format: format string
+ *
+ * Return: number of characters printed
+ */
 int _printf(const char *format, ...)
 {
-    va_list args;
+    int i = 0, printed = 0, buff_index = 0;
     char buffer[BUFFER_SIZE];
-    int buff_index = 0;
-    int printed = 0;
-    int i = 0;
-    char flag;
+    va_list args;
+
+    va_start(args, format);
 
     if (!format)
         return (-1);
 
-    va_start(args, format);
-
     while (format[i])
     {
-        if (format[i] != '%')
+        if (format[i] == '%')
         {
-            printed += print_char(format[i], buffer, &buff_index);
-        }
-        else
-        {
+            int plus_flag = 0, space_flag = 0, hash_flag = 0;
             i++;
-            flag = 0;
 
-            /* check for flags: +, space, # */
             while (format[i] == '+' || format[i] == ' ' || format[i] == '#')
             {
-                flag = format[i];
+                if (format[i] == '+')
+                    plus_flag = 1;
+                else if (format[i] == ' ')
+                    space_flag = 1;
+                else if (format[i] == '#')
+                    hash_flag = 1;
                 i++;
             }
 
-            if (format[i] == 'c')
-                printed += print_char(va_arg(args, int), buffer, &buff_index);
-            else if (format[i] == 's')
-                printed += print_string(va_arg(args, char *), buffer, &buff_index);
-            else if (format[i] == 'S')
-                printed += print_S(va_arg(args, char *), buffer, &buff_index);
+            if (format[i] == 'd' || format[i] == 'i')
+            {
+                int val = va_arg(args, int);
+                printed += print_int(val, buffer, &buff_index, plus_flag, space_flag);
+            }
+            /* Burada digər format specifierləri yazacaqsan (c, s, u, x, etc.) */
+
             else if (format[i] == '%')
-                printed += print_percent(buffer, &buff_index);
-            else if (format[i] == 'd' || format[i] == 'i')
-                printed += print_int(va_arg(args, int), buffer, &buff_index, flag);
-            else if (format[i] == 'u')
-                printed += print_unsigned(va_arg(args, unsigned int), buffer, &buff_index, flag);
-            else if (format[i] == 'b')
-                printed += print_binary(va_arg(args, unsigned int), buffer, &buff_index);
-            else if (format[i] == 'o')
-                printed += print_octal(va_arg(args, unsigned int), buffer, &buff_index, flag);
-            else if (format[i] == 'x')
-                printed += print_hex_lower(va_arg(args, unsigned int), buffer, &buff_index, flag);
-            else if (format[i] == 'X')
-                printed += print_hex_upper(va_arg(args, unsigned int), buffer, &buff_index, flag);
-            else if (format[i] == 'p')
-                printed += print_pointer(va_arg(args, void *), buffer, &buff_index);
+            {
+                buffer[buff_index++] = '%';
+                if (buff_index == BUFFER_SIZE)
+                {
+                    write(1, buffer, buff_index);
+                    buff_index = 0;
+                }
+                printed++;
+            }
+            else
+            {
+                /* Unknown format specifier: print as is */
+                buffer[buff_index++] = '%';
+                buffer[buff_index++] = format[i];
+                if (buff_index >= BUFFER_SIZE)
+                {
+                    write(1, buffer, buff_index);
+                    buff_index = 0;
+                }
+                printed += 2;
+            }
+            i++;
         }
-        i++;
+        else
+        {
+            buffer[buff_index++] = format[i++];
+            if (buff_index == BUFFER_SIZE)
+            {
+                write(1, buffer, buff_index);
+                buff_index = 0;
+            }
+            printed++;
+        }
     }
 
     if (buff_index > 0)
