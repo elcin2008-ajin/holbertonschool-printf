@@ -3,18 +3,10 @@
 int _printf(const char *format, ...)
 {
     va_list args;
-    int i = 0, j, count = 0;
-
-    format_t specs[] = {
-        {'c', print_char},
-        {'s', print_string},
-        {'u', print_unsigned},
-        {'o', print_octal},
-        {'x', print_hex_lower},
-        {'X', print_hex_upper},
-        {'%', NULL},
-        {0, NULL}
-    };
+    char buffer[BUFFER_SIZE];
+    int buff_index = 0;
+    int printed = 0;
+    int i = 0;
 
     if (!format)
         return (-1);
@@ -23,41 +15,38 @@ int _printf(const char *format, ...)
 
     while (format[i])
     {
-        if (format[i] == '%')
+        if (format[i] != '%')
         {
-            i++;
-            if (format[i] == '%')
-            {
-                _putchar('%');
-                count++;
-                i++;
-                continue;
-            }
-            for (j = 0; specs[j].spec; j++)
-            {
-                if (format[i] == specs[j].spec)
-                {
-                    if (specs[j].f)
-                        count += specs[j].f(args);
-                    break;
-                }
-            }
-            if (!specs[j].spec)
-            {
-                _putchar('%');
-                _putchar(format[i]);
-                count += 2;
-            }
-            i++;
+            printed += print_char(format[i], buffer, &buff_index);
         }
         else
         {
-            _putchar(format[i]);
-            count++;
             i++;
+            if (format[i] == 'c')
+                printed += print_char(va_arg(args, int), buffer, &buff_index);
+            else if (format[i] == 's')
+                printed += print_string(va_arg(args, char *), buffer, &buff_index);
+            else if (format[i] == '%')
+                printed += print_percent(buffer, &buff_index);
+            else if (format[i] == 'd' || format[i] == 'i')
+                printed += print_int(va_arg(args, int), buffer, &buff_index);
+            else if (format[i] == 'u')
+                printed += print_unsigned(va_arg(args, unsigned int), buffer, &buff_index);
+            else if (format[i] == 'b')
+                printed += print_binary(va_arg(args, unsigned int), buffer, &buff_index);
+            else if (format[i] == 'o')
+                printed += print_octal(va_arg(args, unsigned int), buffer, &buff_index);
+            else if (format[i] == 'x')
+                printed += print_hex_lower(va_arg(args, unsigned int), buffer, &buff_index);
+            else if (format[i] == 'X')
+                printed += print_hex_upper(va_arg(args, unsigned int), buffer, &buff_index);
         }
+        i++;
     }
 
+    if (buff_index > 0)
+        write(1, buffer, buff_index);
+
     va_end(args);
-    return (count);
+    return (printed);
 }

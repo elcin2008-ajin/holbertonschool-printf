@@ -1,26 +1,6 @@
 #include "main.h"
 
-int print_unsigned(va_list args)
+int print_unsigned(unsigned int n, char *buffer, int *buff_index)
 {
-    unsigned int n = va_arg(args, unsigned int);
-    int count = 0;
-    char buffer[10];
-    int i = 0;
-
-    if (n == 0)
-    {
-        _putchar('0');
-        return (1);
-    }
-
-    while (n > 0)
-    {
-        buffer[i++] = (n % 10) + '0';
-        n /= 10;
-    }
-
-    while (i--)
-        count += _putchar(buffer[i]);
-
-    return (count);
+    return (print_number(n, buffer, buff_index, 10, "0123456789"));
 }

@@ -1,9 +1,14 @@
 #include "main.h"
 
-int print_char(va_list args)
+int print_char(char c, char *buffer, int *buff_index)
 {
-    char c = va_arg(args, int);
+    buffer[*buff_index] = c;
+    (*buff_index)++;
 
-    _putchar(c);
+    if (*buff_index == BUFFER_SIZE)
+    {
+        write(1, buffer, *buff_index);
+        *buff_index = 0;
+    }
     return (1);
 }

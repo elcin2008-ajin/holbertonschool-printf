@@ -1,8 +1,7 @@
 #include "main.h"
 
-int print_string(va_list args)
+int print_string(char *s, char *buffer, int *buff_index)
 {
-    char *s = va_arg(args, char *);
     int i = 0;
 
     if (!s)
@@ -10,7 +9,14 @@ int print_string(va_list args)
 
     while (s[i])
     {
-        _putchar(s[i]);
+        buffer[*buff_index] = s[i];
+        (*buff_index)++;
+
+        if (*buff_index == BUFFER_SIZE)
+        {
+            write(1, buffer, *buff_index);
+            *buff_index = 0;
+        }
         i++;
     }
     return (i);

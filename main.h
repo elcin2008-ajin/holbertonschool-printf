@@ -3,26 +3,27 @@
 
 #include <stdarg.h>
 #include <unistd.h>
+#include <stdlib.h>
 
-/**
- * struct format - specifier və ona uyğun funksiya
- * @spec: specifier simvolu
- * @f: specifier funksiyasına pointer
- */
-typedef struct format
-{
-    char spec;
-    int (*f)(va_list);
-} format_t;
+#define BUFFER_SIZE 1024
 
 int _printf(const char *format, ...);
-int _putchar(char c);
 
-int print_char(va_list args);
-int print_string(va_list args);
-int print_unsigned(va_list args);
-int print_octal(va_list args);
-int print_hex_lower(va_list args);
-int print_hex_upper(va_list args);
+/* basic */
+int print_char(char c, char *buffer, int *buff_index);
+int print_string(char *s, char *buffer, int *buff_index);
+int print_percent(char *buffer, int *buff_index);
+
+/* numbers */
+int print_int(int n, char *buffer, int *buff_index);
+int print_unsigned(unsigned int n, char *buffer, int *buff_index);
+int print_binary(unsigned int n, char *buffer, int *buff_index);
+int print_octal(unsigned int n, char *buffer, int *buff_index);
+int print_hex_lower(unsigned int n, char *buffer, int *buff_index);
+int print_hex_upper(unsigned int n, char *buffer, int *buff_index);
+
+/* helper */
+int print_number(unsigned int n, char *buffer, int *buff_index,
+                 unsigned int base, char *map);
 
 #endif
