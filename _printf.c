@@ -3,9 +3,6 @@
 
 /**
  * _printf - produces output according to a format
- * @format: format string
- *
- * Return: number of characters printed
  */
 int _printf(const char *format, ...)
 {
@@ -41,41 +38,48 @@ int _printf(const char *format, ...)
                 int val = va_arg(args, int);
                 printed += print_int(val, buffer, &buff_index, plus_flag, space_flag);
             }
-            /* Burada digər format specifierləri yazacaqsan (c, s, u, x, etc.) */
-
+            else if (format[i] == 'c')
+            {
+                char c = (char)va_arg(args, int);
+                printed += print_char(c, buffer, &buff_index);
+            }
+            else if (format[i] == 's')
+            {
+                char *str = va_arg(args, char *);
+                printed += print_string(str, buffer, &buff_index);
+            }
             else if (format[i] == '%')
             {
                 buffer[buff_index++] = '%';
+                printed++;
                 if (buff_index == BUFFER_SIZE)
                 {
                     write(1, buffer, buff_index);
                     buff_index = 0;
                 }
-                printed++;
             }
             else
             {
-                /* Unknown format specifier: print as is */
                 buffer[buff_index++] = '%';
                 buffer[buff_index++] = format[i];
+                printed += 2;
                 if (buff_index >= BUFFER_SIZE)
                 {
                     write(1, buffer, buff_index);
                     buff_index = 0;
                 }
-                printed += 2;
             }
             i++;
         }
         else
         {
             buffer[buff_index++] = format[i++];
+            printed++;
             if (buff_index == BUFFER_SIZE)
             {
                 write(1, buffer, buff_index);
                 buff_index = 0;
             }
-            printed++;
         }
     }
 

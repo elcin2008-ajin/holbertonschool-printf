@@ -1,17 +1,7 @@
 #include "main.h"
 
 /**
- * print_number - Prints a number with given base and flags
- * @n: number to print
- * @buffer: buffer array
- * @buff_index: current index in buffer
- * @base: base for number conversion (e.g., 10 for decimal)
- * @map: characters for digits in base (e.g., "0123456789")
- * @plus_flag: if '+' flag is set
- * @space_flag: if ' ' flag is set
- * @is_signed: if number is signed
- *
- * Return: number of characters printed
+ * print_number - Prints a number with base and flags
  */
 int print_number(unsigned long n, char *buffer, int *buff_index,
                  unsigned long base, char *map,

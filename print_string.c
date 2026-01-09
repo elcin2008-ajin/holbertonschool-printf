@@ -1,26 +1,26 @@
 #include "main.h"
 
-int print_string(char *s, char *buffer, int *buff_index)
+/**
+ * print_string - prints a string
+ */
+int print_string(char *str, char *buffer, int *buff_index)
 {
     int count = 0;
-    int i = 0;
 
-    if (!s)
-        s = "(null)";
+    if (!str)
+        str = "(null)";
 
-    while (s[i])
+    while (*str)
     {
-        buffer[*buff_index] = s[i];
+        buffer[*buff_index] = *str;
         (*buff_index)++;
         count++;
-        i++;
-
-        if (*buff_index >= BUFFER_SIZE - 1)
+        if (*buff_index >= BUFFER_SIZE)
         {
             write(1, buffer, *buff_index);
             *buff_index = 0;
         }
+        str++;
     }
-
-    return count;
+    return (count);
 }
