@@ -7,9 +7,10 @@
 
 #define BUFFER_SIZE 1024
 
+/* main */
 int _printf(const char *format, ...);
 
-/* basic */
+/* char/string */
 int print_char(char c, char *buffer, int *buff_index);
 int print_string(char *s, char *buffer, int *buff_index);
 int print_percent(char *buffer, int *buff_index);

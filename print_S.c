@@ -2,10 +2,9 @@
 
 int print_S(char *s, char *buffer, int *buff_index)
 {
-    int i = 0;
     int count = 0;
     unsigned char c;
-    char hex_map[] = "0123456789ABCDEF";
+    int i = 0;
 
     if (!s)
         s = "(null)";
@@ -18,12 +17,12 @@ int print_S(char *s, char *buffer, int *buff_index)
         {
             buffer[*buff_index] = '\\';
             (*buff_index)++;
-            buffer[*buff_index] = 'x';
+            buffer[*buff_index] = 'X';
             (*buff_index)++;
 
-            buffer[*buff_index] = hex_map[c / 16];
+            buffer[*buff_index] = "0123456789ABCDEF"[c / 16];
             (*buff_index)++;
-            buffer[*buff_index] = hex_map[c % 16];
+            buffer[*buff_index] = "0123456789ABCDEF"[c % 16];
             (*buff_index)++;
 
             count += 4;
@@ -35,7 +34,7 @@ int print_S(char *s, char *buffer, int *buff_index)
             count++;
         }
 
-        if (*buff_index >= BUFFER_SIZE - 4)
+        if (*buff_index >= BUFFER_SIZE - 1)
         {
             write(1, buffer, *buff_index);
             *buff_index = 0;
@@ -44,5 +43,5 @@ int print_S(char *s, char *buffer, int *buff_index)
         i++;
     }
 
-    return (count);
+    return count;
 }

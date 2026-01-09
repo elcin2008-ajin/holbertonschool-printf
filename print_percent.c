@@ -10,5 +10,6 @@ int print_percent(char *buffer, int *buff_index)
         write(1, buffer, *buff_index);
         *buff_index = 0;
     }
-    return (1);
+
+    return 1;
 }
