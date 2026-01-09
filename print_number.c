@@ -1,7 +1,7 @@
 #include "main.h"
 
-int print_number(unsigned int n, char *buffer, int *buff_index,
-                 unsigned int base, char *map)
+int print_number(unsigned long n, char *buffer, int *buff_index,
+                 unsigned long base, char *map)
 {
     int count = 0;
 

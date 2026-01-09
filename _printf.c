@@ -42,6 +42,8 @@ int _printf(const char *format, ...)
                 printed += print_hex_lower(va_arg(args, unsigned int), buffer, &buff_index);
             else if (format[i] == 'X')
                 printed += print_hex_upper(va_arg(args, unsigned int), buffer, &buff_index);
+            else if (format[i] == 'p')
+                printed += print_pointer(va_arg(args, void *), buffer, &buff_index);
         }
         i++;
     }

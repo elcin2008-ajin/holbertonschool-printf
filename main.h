@@ -22,9 +22,10 @@ int print_binary(unsigned int n, char *buffer, int *buff_index);
 int print_octal(unsigned int n, char *buffer, int *buff_index);
 int print_hex_lower(unsigned int n, char *buffer, int *buff_index);
 int print_hex_upper(unsigned int n, char *buffer, int *buff_index);
+int print_pointer(void *p, char *buffer, int *buff_index);
 
 /* helper */
-int print_number(unsigned int n, char *buffer, int *buff_index,
-                 unsigned int base, char *map);
+int print_number(unsigned long n, char *buffer, int *buff_index,
+                 unsigned long base, char *map);
 
 #endif
