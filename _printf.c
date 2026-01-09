@@ -19,17 +19,15 @@ int _printf(const char *format, ...)
     {
         if (format[i] == '%')
         {
-            int plus_flag = 0, space_flag = 0, hash_flag = 0;
+            int plus_flag = 0, space_flag = 0;
             i++;
 
-            while (format[i] == '+' || format[i] == ' ' || format[i] == '#')
+            while (format[i] == '+' || format[i] == ' ')
             {
                 if (format[i] == '+')
                     plus_flag = 1;
                 else if (format[i] == ' ')
                     space_flag = 1;
-                else if (format[i] == '#')
-                    hash_flag = 1;
                 i++;
             }
 
@@ -50,42 +48,24 @@ int _printf(const char *format, ...)
             }
             else if (format[i] == '%')
             {
-                buffer[buff_index++] = '%';
-                printed++;
-                if (buff_index == BUFFER_SIZE)
-                {
-                    write(1, buffer, buff_index);
-                    buff_index = 0;
-                }
+                printed += print_char('%', buffer, &buff_index);
             }
             else
             {
-                buffer[buff_index++] = '%';
-                buffer[buff_index++] = format[i];
-                printed += 2;
-                if (buff_index >= BUFFER_SIZE)
-                {
-                    write(1, buffer, buff_index);
-                    buff_index = 0;
-                }
+                printed += print_char('%', buffer, &buff_index);
+                printed += print_char(format[i], buffer, &buff_index);
             }
             i++;
         }
         else
         {
-            buffer[buff_index++] = format[i++];
-            printed++;
-            if (buff_index == BUFFER_SIZE)
-            {
-                write(1, buffer, buff_index);
-                buff_index = 0;
-            }
+            printed += print_char(format[i], buffer, &buff_index);
+            i++;
         }
     }
 
-    if (buff_index > 0)
-        write(1, buffer, buff_index);
-
     va_end(args);
+
+    printed += write(1, buffer, buff_index);
     return (printed);
 }
