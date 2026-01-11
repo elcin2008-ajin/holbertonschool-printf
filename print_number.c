@@ -3,6 +3,8 @@
 int print_number(unsigned long n, char *buffer, int *buff_index,
                  int base, char *digits, int negative, int unused)
 {
+    (void)unused;
+
     if (negative)
         buffer[(*buff_index)++] = '-';
 

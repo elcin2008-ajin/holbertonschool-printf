@@ -4,10 +4,14 @@
 #include <stdarg.h>
 #include <unistd.h>
 
+#define BUFFER_SIZE 1024
+
+
 int _printf(const char *format, ...);
 
 int print_number(unsigned long n, char *buffer, int *buff_index,
-                 int base, char *digits, int flag1, int flag2);
+                 int base, char *digits, int negative, int unused);
+
 
 int print_binary(unsigned int n, char *buffer, int *buff_index);
 
