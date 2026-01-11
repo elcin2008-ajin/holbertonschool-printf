@@ -3,27 +3,23 @@
 
 #include <stdarg.h>
 #include <unistd.h>
+#include <limits.h>
 
+/* Buffer size */
 #define BUFFER_SIZE 1024
 
-
+/* Function prototypes */
 int _printf(const char *format, ...);
 
+/* Print functions */
+int print_char(char c, char *buffer, int *buff_index);
+int print_string(char *s, char *buffer, int *buff_index);
+int print_percent(char *buffer, int *buff_index);
 int print_number(unsigned long n, char *buffer, int *buff_index,
                  int base, char *digits, int negative, int unused);
 
-
-int print_binary(unsigned int n, char *buffer, int *buff_index);
-
-int print_unsigned(unsigned int n, char *buffer, int *buff_index, int plus_flag);
-
-int print_hex_lower(unsigned int n, char *buffer, int *buff_index, int hash_flag);
-int print_hex_upper(unsigned int n, char *buffer, int *buff_index, int hash_flag);
-
-int print_octal(unsigned int n, char *buffer, int *buff_index, int hash_flag);
-
-int print_pointer(void *p, char *buffer, int *buff_index);
-
-int print_string(char *str, char *buffer, int *buff_index);
+/* Length modifier handling */
+int handle_length_modifier(va_list args, char length, char specifier,
+                           char *buffer, int *buff_index);
 
 #endif

@@ -1,0 +1,54 @@
+#include "main.h"
+
+int handle_length_modifier(va_list args, char length, char specifier,
+                           char *buffer, int *buff_index)
+{
+    if (specifier == 'd' || specifier == 'i')
+    {
+        if (length == 'l')
+        {
+            long n = va_arg(args, long);
+            if (n < 0)
+                print_number((unsigned long)(-n), buffer, buff_index, 10, "0123456789", 1, 0);
+            else
+                print_number((unsigned long)n, buffer, buff_index, 10, "0123456789", 0, 0);
+        }
+        else if (length == 'h')
+        {
+            short n = (short)va_arg(args, int);
+            if (n < 0)
+                print_number((unsigned long)(-n), buffer, buff_index, 10, "0123456789", 1, 0);
+            else
+                print_number((unsigned long)n, buffer, buff_index, 10, "0123456789", 0, 0);
+        }
+        else
+        {
+            int n = va_arg(args, int);
+            if (n < 0)
+                print_number((unsigned long)(-n), buffer, buff_index, 10, "0123456789", 1, 0);
+            else
+                print_number((unsigned long)n, buffer, buff_index, 10, "0123456789", 0, 0);
+        }
+    }
+
+    if (specifier == 'u' || specifier == 'o' || specifier == 'x' || specifier == 'X')
+    {
+        unsigned long n;
+
+        if (length == 'l')
+            n = va_arg(args, unsigned long);
+        else if (length == 'h')
+            n = (unsigned short)va_arg(args, unsigned int);
+        else
+            n = va_arg(args, unsigned int);
+
+        char *digits = (specifier == 'x') ? "0123456789abcdef" :
+                       (specifier == 'X') ? "0123456789ABCDEF" : "01234567";
+
+        int base = (specifier == 'o') ? 8 : (specifier == 'u' ? 10 : 16);
+
+        print_number(n, buffer, buff_index, base, digits, 0, 0);
+    }
+
+    return 0;
+}

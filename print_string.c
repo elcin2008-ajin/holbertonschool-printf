@@ -1,14 +1,16 @@
 #include "main.h"
 
-int print_string(char *str, char *buffer, int *buff_index)
+int print_string(char *s, char *buffer, int *buff_index)
 {
     int i = 0;
+    if (!s)
+        s = "(null)";
 
-    if (!str)
-        str = "(null)";
+    while (s[i])
+    {
+        buffer[(*buff_index)++] = s[i];
+        i++;
+    }
 
-    while (str[i])
-        buffer[(*buff_index)++] = str[i++];
-
-    return (0);
+    return i;
 }
