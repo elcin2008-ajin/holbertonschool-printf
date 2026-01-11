@@ -2,5 +2,12 @@
 
 int print_unsigned(unsigned int n, char *buffer, int *buff_index, int plus_flag)
 {
-    return print_number(n, buffer, buff_index, 10, "0123456789", plus_flag, 0);
+    if (plus_flag)
+        buffer[(*buff_index)++] = '+';
+
+    if (n / 10)
+        print_unsigned(n / 10, buffer, buff_index, 0);
+
+    buffer[(*buff_index)++] = (n % 10) + '0';
+    return (0);
 }

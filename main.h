@@ -2,6 +2,7 @@
 #define MAIN_H
 
 #include <stdarg.h>
+#include <unistd.h>
 
 int _printf(const char *format, ...);
 
@@ -13,7 +14,6 @@ int print_binary(unsigned int n, char *buffer, int *buff_index);
 int print_unsigned(unsigned int n, char *buffer, int *buff_index, int plus_flag);
 
 int print_hex_lower(unsigned int n, char *buffer, int *buff_index, int hash_flag);
-
 int print_hex_upper(unsigned int n, char *buffer, int *buff_index, int hash_flag);
 
 int print_octal(unsigned int n, char *buffer, int *buff_index, int hash_flag);

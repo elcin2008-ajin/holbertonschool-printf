@@ -2,5 +2,9 @@
 
 int print_binary(unsigned int n, char *buffer, int *buff_index)
 {
-    return print_number(n, buffer, buff_index, 2, "01", 0, 0);
+    if (n / 2)
+        print_binary(n / 2, buffer, buff_index);
+
+    buffer[(*buff_index)++] = (n % 2) + '0';
+    return (0);
 }

@@ -2,8 +2,12 @@
 
 int print_octal(unsigned int n, char *buffer, int *buff_index, int hash_flag)
 {
-    int count = 0;
+    if (hash_flag && n != 0)
+        buffer[(*buff_index)++] = '0';
 
-    count += print_number(n, buffer, buff_index, 8, "01234567", 0, 0);
-    return count;
+    if (n / 8)
+        print_octal(n / 8, buffer, buff_index, 0);
+
+    buffer[(*buff_index)++] = (n % 8) + '0';
+    return (0);
 }
