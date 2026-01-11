@@ -1,10 +1,18 @@
 #include "main.h"
 
-/**
- * print_int - Prints signed integer with flags
- */
 int print_int(int n, char *buffer, int *buff_index, int plus_flag, int space_flag)
 {
-    return print_number((unsigned long)n, buffer, buff_index, 10, "0123456789",
-                        plus_flag, space_flag, 1);
+    int negative = 0;
+
+    (void)plus_flag;
+    (void)space_flag;
+
+    if (n < 0)
+    {
+        negative = 1;
+        n = -n;
+    }
+
+    return print_number((unsigned long)n, buffer, buff_index, 10,
+                        "0123456789", negative, 0);
 }

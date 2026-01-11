@@ -12,5 +12,6 @@ int print_number(unsigned long n, char *buffer, int *buff_index,
         print_number(n / base, buffer, buff_index, base, digits, 0, 0);
 
     buffer[(*buff_index)++] = digits[n % base];
+
     return (0);
 }
