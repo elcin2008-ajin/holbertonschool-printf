@@ -3,8 +3,10 @@
 int handle_length_modifier(va_list args, char length, char specifier,
                            char *buffer, int *buff_index)
 {
-    unsigned long n;
+    unsigned long n = 0;
     int negative = 0;
+    char *digits = NULL;
+    int base = 0;
 
     if (specifier == 'd' || specifier == 'i')
     {
@@ -58,9 +60,6 @@ int handle_length_modifier(va_list args, char length, char specifier,
             n = (unsigned short)va_arg(args, unsigned int);
         else
             n = va_arg(args, unsigned int);
-
-        char *digits;
-        int base;
 
         if (specifier == 'u')
         {
